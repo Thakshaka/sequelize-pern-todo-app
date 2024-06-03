@@ -29,8 +29,8 @@ const EditTodo = ({ todo }) => {
       <button
         type="button"
         class="btn btn-warning"
-        data-toggle="modal"
-        data-target={`#id${todo.todo_id}`}
+        data-bs-toggle="modal"
+        data-bs-target={`#id${todo.todo_id}`}
       >
         Edit
       </button>
@@ -47,14 +47,6 @@ const EditTodo = ({ todo }) => {
           <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title">Edit Todo</h4>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                onClick={() => setDescription(todo.description)}
-              >
-                &times;
-              </button>
             </div>
 
             <div class="modal-body">
@@ -78,7 +70,7 @@ const EditTodo = ({ todo }) => {
               <button
                 type="button"
                 class="btn btn-danger"
-                data-dismiss="modal"
+                data-bs-dismiss="modal"
                 onClick={() => setDescription(todo.description)}
               >
                 Close
