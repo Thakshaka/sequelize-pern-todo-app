@@ -5,20 +5,6 @@ import EditTodo from "./EditTodo";
 const ListTodos = () => {
   const [todos, setTodos] = useState([]);
 
-  // delete todo
-
-  const deleteTodo = async (id) => {
-    try {
-      const deleteTodo = await fetch(`https://pern-todo-app-server.vercel.app/todos/${id}`, {
-        method: "DELETE"
-      });
-
-      setTodos(todos.filter(todo => todo.todo_id !== id));
-    } catch (err) {
-      console.error(err.message);
-    }
-  };
-
   // get all todos
 
   const getTodos = async () => {
@@ -36,7 +22,19 @@ const ListTodos = () => {
     getTodos();
   }, []);
 
-  console.log(todos);
+  // delete todo
+
+  const deleteTodo = async (id) => {
+    try {
+      const deleteTodo = await fetch(`https://pern-todo-app-server.vercel.app/todos/${id}`, {
+        method: "DELETE"
+      });
+
+      setTodos(todos.filter(todo => todo.todo_id !== id));
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
 
   return (
     <Fragment>
@@ -44,14 +42,14 @@ const ListTodos = () => {
       <table class="table mt-5 text-center">
         <thead>
           <tr>
-            <th>Description</th>
+            <th>Task</th>
             <th>Edit</th>
             <th>Delete</th>
           </tr>
         </thead>
         <tbody>
           {/*<tr>
-            <td>description</td>
+            <td>task</td>
             <td>edit</td>
             <td>delete</td>
           </tr> */}

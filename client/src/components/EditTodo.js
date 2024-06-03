@@ -6,7 +6,7 @@ const EditTodo = ({ todo }) => {
   //edit description function
 
   const updateDescription = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); //prevent the page from refreshing
     try {
       const body = { description };
       const response = await fetch(
@@ -18,7 +18,7 @@ const EditTodo = ({ todo }) => {
         }
       );
 
-      window.location = "/";
+      window.location = "/"; //refresh the page
     } catch (err) {
       console.error(err.message);
     }
@@ -34,14 +34,10 @@ const EditTodo = ({ todo }) => {
       >
         Edit
       </button>
-
-      {/* 
-        id = id10
-      */}
       <div
         class="modal"
         id={`id${todo.todo_id}`}
-        // onClick={() => setDescription(todo.description)}
+        onClick={() => setDescription(todo.description)} //reset the description to the original value
       >
         <div class="modal-dialog">
           <div class="modal-content">
@@ -53,8 +49,8 @@ const EditTodo = ({ todo }) => {
               <input
                 type="text"
                 className="form-control"
-                value={description}
-                onChange={e => setDescription(e.target.value)}
+                value={description} //display the current description
+                onChange={e => setDescription(e.target.value)} //update the description
               />
             </div>
 
@@ -63,7 +59,7 @@ const EditTodo = ({ todo }) => {
                 type="button"
                 class="btn btn-warning"
                 data-dismiss="modal"
-                onClick={e => updateDescription(e)}
+                onClick={e => updateDescription(e)} //update the description
               >
                 Edit
               </button>
@@ -71,7 +67,7 @@ const EditTodo = ({ todo }) => {
                 type="button"
                 class="btn btn-danger"
                 data-bs-dismiss="modal"
-                // onClick={() => setDescription(todo.description)}
+                onClick={() => setDescription(todo.description)} //reset the description to the original value
               >
                 Close
               </button>

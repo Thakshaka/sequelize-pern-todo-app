@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const pool = require("./db");
+const pool = require("./postgresdb");
 const supabase = require("./supabasedb");
 
 //middleware
@@ -27,13 +27,13 @@ app.post("/todos", async (req, res) => {
   try {
     const { description } = req.body;
     const { data, error } = await supabase
-      .from('todo')
+      .from('todo') // table name
       .insert([{ description }]);
       
     if (error) throw error;
 
     if (data) {
-      res.json(data[0]);
+      res.json("OK");
     } else {
       res.status(400).json({ error: 'No data returned from operation' });
     }
@@ -61,7 +61,11 @@ app.get("/todos", async (req, res) => {
 
     if (error) throw error;
 
-    res.json(data);
+    if (data) {
+      res.json(data);
+    } else {
+      res.status(400).json({ error: 'No data returned from operation' });
+    }
   } catch (err) {
     console.error(err.message);
   }
@@ -90,7 +94,11 @@ app.get("/todos/:id", async (req, res) => {
 
     if (error) throw error;
 
-    res.json(data[0]);
+    if (data) {
+      res.json(data[0]);
+    } else {
+      res.status(400).json({ error: 'No data returned from operation' });
+    }
   } catch (err) {
     console.error(err.message);
   }
@@ -122,11 +130,8 @@ app.put("/todos/:id", async (req, res) => {
 
     if (error) throw error;
 
-    if (data) {
-      res.json(data[0]);
-    } else {
-      res.status(400).json({ error: 'No data returned from operation' });
-    }
+    res.json("Todo was updated!");
+
   } catch (err) {
     console.error(err.message);
   }
@@ -160,6 +165,6 @@ app.delete("/todos/:id", async (req, res) => {
   }
 });
 
-app.listen(5000, () => {
-  console.log("server has started on port 5000");
-});
+// app.listen(5000, () => {
+//   console.log("server has started on port 5000");
+// });
