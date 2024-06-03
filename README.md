@@ -12,3 +12,5 @@
 
 ## Hosting
 1. Vercel
+
+Live Demo: [View](https://pern-todo-app-client-kt8xcb4qz-thakshakas-projects.vercel.app/)
