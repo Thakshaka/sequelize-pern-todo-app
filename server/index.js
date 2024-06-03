@@ -29,7 +29,7 @@ app.post("/todos", async (req, res) => {
     const { data, error } = await supabase
       .from('todo')
       .insert([{ description }]);
-
+      
     if (error) throw error;
 
     if (data) {
