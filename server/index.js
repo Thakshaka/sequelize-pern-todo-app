@@ -33,8 +33,7 @@ app.post("/todos", async (req, res) => {
     if (error) throw error;
 
     if (data) {
-      console.log("OK");
-      console.log(data);
+      res.json(data);
     } else {
       res.status(400).json({ error: 'No data returned from operation' });
     }
