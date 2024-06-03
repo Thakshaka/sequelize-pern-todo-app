@@ -41,7 +41,7 @@ const EditTodo = ({ todo }) => {
       <div
         class="modal"
         id={`id${todo.todo_id}`}
-        onClick={() => setDescription(todo.description)}
+        // onClick={() => setDescription(todo.description)}
       >
         <div class="modal-dialog">
           <div class="modal-content">
@@ -71,7 +71,7 @@ const EditTodo = ({ todo }) => {
                 type="button"
                 class="btn btn-danger"
                 data-bs-dismiss="modal"
-                onClick={() => setDescription(todo.description)}
+                // onClick={() => setDescription(todo.description)}
               >
                 Close
               </button>

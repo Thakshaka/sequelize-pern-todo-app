@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from "react";
 
 const InputTodo = () => {
-  const [description, setDescription] = useState("");
+  const [description, setDescription] = useState("I want to");
 
   const onSubmitForm = async e => {
     e.preventDefault();
