@@ -7,10 +7,11 @@
 4. Node.js
 
 ## Database
-1. Supabase (Remote)
-2. PostgresSQL (Local)
+1. PostgresSQL
 
 ## Hosting
-1. Vercel
+1. Frontend - Vercel
+2. Backend - Vercel
+3. Database - Supabase
 
 Live Demo: [View](https://pern-todo-app-client-kt8xcb4qz-thakshakas-projects.vercel.app/)
