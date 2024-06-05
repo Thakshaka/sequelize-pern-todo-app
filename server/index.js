@@ -1,119 +1,170 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const db = require('./db/sequelize/models/index');
+const pool = require("./postgresdb");
+const supabase = require("./supabasedb");
 
-// Middleware
+//middleware
 app.use(cors());
-app.use(express.json()); // For parsing application/json
+app.use(express.json()); //req.body
 
-// Sync database
-db.sequelize.sync().then(() => {
-  console.log('Database synced');
-}).catch((err) => {
-  console.error('Error syncing database:', err);
-});
+//ROUTES//
 
-// Routes
+//create a todo
 
-// Create a todo
-app.post("/todos", async (req, res) => {
-  try {
-    const todo = await db.todo.create({
-      description: req.body.description
-    });
-    res.json(todo);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// Get all todos
-app.get("/todos", async (req, res) => {
-  try {
-    const todos = await db.todo.findAll();
-    res.json(todos);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// Get a single todo
-app.get("/todos/:id", async (req, res) => {
-  try {
-    const todo = await db.todo.findByPk(req.params.id);
-    if (todo) {
-      res.json(todo);
-    } else {
-      res.status(404).json({ error: 'Todo not found' });
-    }
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// Update a todo (Alternative)
-
-// Using save() method, first retrieved the todo item from the database using findByPk() and then updated its properties before saving it back to the database.
-
-// app.put("/todos/:id", async (req, res) => {
+// app.post("/todos", async (req, res) => {
 //   try {
-//     const todo = await db.todo.findByPk(req.params.id); 
-//     if (todo) {
-//       todo.description = req.body.description;
-//       await todo.save();
-//       res.json(todo);
-//     } else {
-//       res.status(404).json({ error: 'Todo not found' });
-//     }
+//     const { description } = req.body;
+//     const newTodo = await pool.query("INSERT INTO todo (description) VALUES($1) RETURNING *", [description]);
+
+//     res.json(newTodo.rows[0]);
 //   } catch (err) {
-//     res.status(500).json({ error: err.message });
+//     console.error(err.message);
 //   }
 // });
 
-// Update a todo
-
-// Using update() method, updated the todo item with the specified id directly in the database. 
-app.put("/todos/:id", async (req, res) => {
-  const todoId = req.params.id;
-  const updatedDescription = req.body.description;
-
+app.post("/todos", async (req, res) => {
   try {
-    // Update the todo with the specified id
-    const [numRowsAffected, updatedTodo] = await db.todo.update(
-      { description: updatedDescription },
-      { where: { id: todoId }, returning: true }
-    );
+    const { description } = req.body;
+    const { data, error } = await supabase
+      .from('todo') // table name
+      .insert([{ description }]);
+      
+    if (error) throw error;
 
-    // Check if any rows were affected by the update
-    if (numRowsAffected > 0) {
-      // If at least one row was affected, return the updated todo
-      res.json(updatedTodo[0]);
+    if (data) {
+      res.json(data);
     } else {
-      res.status(404).json({ error: 'Todo not found' });
+      res.status(400).json({ error: 'No data returned from operation' });
     }
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error(err.message);
   }
 });
 
-// Delete a todo
+//get all todos
+
+// app.get("/todos", async (req, res) => {
+//   try {
+//     const allTodos = await pool.query("SELECT * FROM todo");
+//     res.json(allTodos.rows);
+//   } catch (err) {
+//     console.error(err.message);
+//   }
+// });
+
+app.get("/todos", async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from('todo')
+      .select('*');
+
+    if (error) throw error;
+
+    if (data) {
+      res.json(data);
+    } else {
+      res.status(400).json({ error: 'No data returned from operation' });
+    }
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
+//get a todo
+
+// app.get("/todos/:id", async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const todo = await pool.query("SELECT * FROM todo WHERE todo_id = $1", [id]);
+
+//     res.json(todo.rows[0]);
+//   } catch (err) {
+//     console.error(err.message);
+//   }
+// });
+
+app.get("/todos/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { data, error } = await supabase
+      .from('todo')
+      .select('*')
+      .eq('id', id);
+
+    if (error) throw error;
+
+    if (data) {
+      res.json(data[0]);
+    } else {
+      res.status(400).json({ error: 'No data returned from operation' });
+    }
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
+//update a todo
+
+// app.put("/todos/:id", async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const { description } = req.body;
+//     const updateTodo = await pool.query(
+//       "UPDATE todo SET description = $1 WHERE todo_id = $2", [description, id]);
+
+//     res.json("Todo was updated!");
+//   } catch (err) {
+//     console.error(err.message);
+//   }
+// });
+
+app.put("/todos/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { description } = req.body;
+    const { data, error } = await supabase
+      .from('todo')
+      .update({ description })
+      .eq('todo_id', id);
+
+    if (error) throw error;
+
+    res.json("Todo was updated!");
+
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
+//delete a todo
+
+// app.delete("/todos/:id", async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const deleteTodo = await pool.query("DELETE FROM todo WHERE todo_id = $1", [id]);
+//     res.json("Todo was deleted!");
+//   } catch (err) {
+//     console.log(err.message);
+//   }
+// });
+
 app.delete("/todos/:id", async (req, res) => {
   try {
-    const todo = await db.todo.findByPk(req.params.id);
-    if (todo) {
-      await todo.destroy();
-      res.json({ message: 'Todo deleted' });
-    } else {
-      res.status(404).json({ error: 'Todo not found' });
-    }
+    const { id } = req.params;
+    const { data, error } = await supabase
+      .from('todo')
+      .delete()
+      .eq('todo_id', id);
+
+    if (error) throw error;
+
+    res.json("Todo was deleted!");
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error(err.message);
   }
 });
 
-// Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.listen(5000, () => {
+  console.log("server has started on port 5000");
 });
