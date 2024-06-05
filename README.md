@@ -7,7 +7,7 @@
 4. Node.js
 
 ## Database
-1. PostgresSQL
+1. PostgresSQL (Sequelize)
 
 ## Hosting
 1. Frontend - Vercel
