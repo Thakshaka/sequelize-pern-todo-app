@@ -17,7 +17,7 @@
 Live Demo: [View](https://pern-todo-app-client-kt8xcb4qz-thakshakas-projects.vercel.app/)
 
 ## .env
-'''
+```
 SUPABASE_URL=''
 SUPABASE_KEY=''
-'''
+```
