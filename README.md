@@ -14,10 +14,4 @@
 2. Backend - Vercel
 3. Database - Supabase
 
-Live Demo: [View](https://pern-todo-app-client-kt8xcb4qz-thakshakas-projects.vercel.app/)
-
-## .env (server side)
-```
-SUPABASE_URL=''
-SUPABASE_KEY=''
-```
+Live Demo: [View](https://pern-todo-app-client-kt8xcb4qz-thakshakas-projects.vercel.app/
