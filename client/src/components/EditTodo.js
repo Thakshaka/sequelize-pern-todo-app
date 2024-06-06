@@ -10,7 +10,7 @@ const EditTodo = ({ todo }) => {
     try {
       const body = { description };
       const response = await fetch(
-        `https://pern-todo-app-server.vercel.app/todos/${todo.todo_id}`,
+        `http://localhost:5000/todos/${todo.id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -30,13 +30,13 @@ const EditTodo = ({ todo }) => {
         type="button"
         class="btn btn-warning"
         data-bs-toggle="modal"
-        data-bs-target={`#id${todo.todo_id}`}
+        data-bs-target={`#id${todo.id}`}
       >
         Edit
       </button>
       <div
         class="modal"
-        id={`id${todo.todo_id}`}
+        id={`id${todo.id}`}
         onClick={() => setDescription(todo.description)} //reset the description to the original value
       >
         <div class="modal-dialog">
