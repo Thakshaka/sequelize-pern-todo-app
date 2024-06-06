@@ -42,6 +42,8 @@ Live Demo: [View](https://pern-todo-app-client-kt8xcb4qz-thakshakas-projects.ver
    cd .\server\
    npm i
    cd .\db\sequelize
+   npm install --save-dev sequelize-cli
+   npx sequelize-cli init
    npx sequelize-cli db:migrate
    cd ../../
    nodemon index.js
