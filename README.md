@@ -32,17 +32,17 @@ Live Demo: [View](https://pern-todo-app-client-kt8xcb4qz-thakshakas-projects.ver
    ```
 
 4. Client side
-  ```
-  cd .\client\
-  npm i
-  ```
+   ```
+   cd .\client\
+   npm i
+   ```
 
 3. Server side
-  ```
-  cd .\server\
-  npm i
-  cd .\db\sequelize
-  npx sequelize-cli db:migrate
-  cd ../../
-  nodemon index.js
-  ```
+   ```
+   cd .\server\
+   npm i
+   cd .\db\sequelize
+   npx sequelize-cli db:migrate
+   cd ../../
+   nodemon index.js
+   ```
